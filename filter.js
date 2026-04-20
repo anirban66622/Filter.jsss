@@ -1,61 +1,68 @@
-// Cleaned & Forced Visible Version v3
-function a0_0x1703(_0x24082f, _0x44ab98) { /* ... same as before ... */ }
-function a0_0x4cfb() { /* ... same as before ... */ }
+(function() {
+    console.log("🛠️ Filter Script Initializing...");
 
-(async function () {
-    const _0x5cfc00 = a0_0x1703;
-    
-    // 1. Wait for the page to be fully ready
-    if (document.readyState === 'loading') {
-        await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
-    }
-
-    // 2. Forced Bypass for Backend/Verification
-    async function _0x485850() { return true; }
-    async function _0x545ee6() { return; }
-
-    // 3. Create the Panel
+    // 1. Create the UI Box
     const panel = document.createElement("div");
-    panel.className = "amount-filter-panel";
+    panel.id = "custom-filter-box";
     panel.style.cssText = `
         position: fixed;
-        bottom: 24px;
-        right: 24px;
-        background: #fff;
-        border-radius: 12px;
-        padding: 14px;
-        width: 220px;
-        font-family: system-ui;
-        box-shadow: 0 12px 28px rgba(0,0,0,.15);
-        z-index: 999999;
-        display: block !important; 
-        border: 2px solid #3498db;
+        bottom: 20px;
+        right: 20px;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        z-index: 100000;
+        width: 200px;
+        display: block !important;
+        border: 2px solid #22c55e;
     `;
 
-    // 4. Add UI Elements (Title and Input)
-    const title = document.createElement("div");
-    title.textContent = "Amount Filter";
-    title.style.cssText = "font-weight:600;margin-bottom:8px;color:#2c3e50;";
-    
-    const input = document.createElement("input");
-    input.type = "number";
-    input.placeholder = "Enter Amount...";
-    input.style.cssText = "width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-bottom:8px;";
+    panel.innerHTML = `
+        <div style="font-weight:bold; margin-bottom:10px; color: black;">Amount Filter</div>
+        <input type="number" id="filter-amount" placeholder="Min Amount" style="width:100%; margin-bottom:10px; padding:5px; border:1px solid #ccc;">
+        <button id="start-filter" style="width:100%; padding:8px; background:#22c55e; color:white; border:none; border-radius:5px; font-weight:bold;">Start</button>
+        <button id="stop-filter" style="width:100%; padding:8px; background:#ef4444; color:white; border:none; border-radius:5px; font-weight:bold; margin-top:5px; display:none;">Stop</button>
+    `;
 
-    const btn = document.createElement("button");
-    btn.textContent = "Start Filter";
-    btn.style.cssText = "width:100%;padding:10px;background:#22c55e;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:bold;";
+    document.body.appendChild(panel);
 
-    // 5. Append to Screen
-    panel.appendChild(title);
-    panel.appendChild(input);
-    panel.appendChild(btn);
-    
-    // Safety check to ensure document.body exists
-    if (document.body) {
-        document.body.appendChild(panel);
-        console.log("✅ Filter UI injected successfully!");
-    } else {
-        console.error("❌ Could not find document.body");
-    }
+    // 2. Logic to Show/Hide Rows based on Price
+    let filterInterval = null;
+
+    document.getElementById('start-filter').onclick = function() {
+        const minAmount = parseFloat(document.getElementById('filter-amount').value);
+        if (isNaN(minAmount)) { alert("Enter a number first!"); return; }
+
+        this.style.display = "none";
+        document.getElementById('stop-filter').style.display = "block";
+
+        filterInterval = setInterval(() => {
+            // Find all price elements on pay.me (usually starts with ₹)
+            document.querySelectorAll('div, span, p').forEach(el => {
+                if (el.innerText.includes('₹')) {
+                    const price = parseFloat(el.innerText.replace(/[^\d.]/g, ''));
+                    // Check if this is a row or card (up to 4 levels up)
+                    const container = el.closest('div[class*="item"], div[class*="row"], .x-row');
+                    if (container) {
+                        container.style.display = (price === minAmount) ? "" : "none";
+                    }
+                }
+            });
+        }, 500);
+        console.log("✅ Filtering for ₹" + minAmount);
+    };
+
+    document.getElementById('stop-filter').onclick = function() {
+        clearInterval(filterInterval);
+        this.style.display = "none";
+        document.getElementById('start-filter').style.display = "block";
+        document.querySelectorAll('div, span, p').forEach(el => {
+            const container = el.closest('div[class*="item"], div[class*="row"], .x-row');
+            if (container) container.style.display = "";
+        });
+        console.log("🛑 Filter Stopped");
+    };
+
+    console.log("✅ UI Box successfully added to the screen!");
 })();
