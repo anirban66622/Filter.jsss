@@ -1,18 +1,34 @@
-(function() {
-    // 1. Remove any old versions of the script from the page
-    var old = document.getElementById('my-filter-script');
-    if (old) old.remove();
+(async () => {
+  try {
+    const repo = 'anirban66622/filter.js';
+    const branch = 'main';
+    const filePath = 'filter.js'; // change if inside folder
 
-    // 2. Load the fresh version from your GitHub
-    var script = document.createElement('script');
-    script.id = 'my-filter-script';
-    
-    // The '?v=' at the end forces GitHub to send the LATEST version
-    script.src = 'https://cdn.jsdelivr.net/gh/anirban66622/Filter.jsss@main/filter.js?v=' + Math.random();
-    
-    script.onload = function() {
-        console.log('🚀 MASTER VERSION LOADED SUCCESSFULLY!');
-    };
-    
-    document.body.appendChild(script);
+    // Get latest commit SHA
+    const res = await fetch(`https://api.github.com/repos/${repo}/commits/${branch}`);
+    const data = await res.json();
+    const sha = data.sha;
+
+    const url = `https://cdn.jsdelivr.net/gh/${repo}@${sha}/${filePath}`;
+    console.log('Loading:', url);
+
+    // Prevent duplicate injection
+    if (document.querySelector(`script[data-loader="${repo}"]`)) {
+      console.log('⚠️ Script already injected');
+      return;
+    }
+
+    const s = document.createElement('script');
+    s.src = url;
+    s.async = true;
+    s.dataset.loader = repo;
+
+    s.onload = () => console.log('✅ filter.js loaded (SHA):', sha);
+    s.onerror = () => console.error('❌ Failed to load script');
+
+    document.head.appendChild(s);
+
+  } catch (e) {
+    console.error('Loader error:', e);
+  }
 })();
