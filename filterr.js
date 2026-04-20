@@ -489,11 +489,7 @@ function a0_0x4cfb() {
         });
       }
     }
-    !firebase[_0x5cfc00(0x1de)][_0x5cfc00(0x1af)] &&
-      firebase[_0x5cfc00(0x215)]({
-        apiKey: _0x5302eb[_0x5cfc00(0x216)],
-        projectId: _0x5302eb["QDmBl"],
-      });
+    
     async function _0x545ee6() {
       const _0x10cf34 = _0x5cfc00;
       try {
