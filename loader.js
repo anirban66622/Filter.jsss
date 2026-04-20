@@ -1,26 +1,16 @@
 (function() {
-    // Check if it's already loaded to prevent duplicates
-    if (document.getElementById('my-filter-script')) {
-        console.log('Filter script is already loaded.');
-        return;
-    }
+    var old = document.getElementById('my-filter-script');
+    if (old) old.remove(); // Remove old broken versions
 
-    // Create the script tag
     var script = document.createElement('script');
     script.id = 'my-filter-script';
     
-    // Fetch your specific filter.js file directly from your GitHub repo
-    script.src = 'https://cdn.jsdelivr.net/gh/anirban66622/Filter.jsss@main/filter.js';
-    script.type = 'text/javascript';
-
-    // Log success or error to the console
+    // Added ?t=TIMESTAMP to force the browser to grab the NEWEST version
+    script.src = 'https://cdn.jsdelivr.net/gh/anirban66622/Filter.jsss@main/filter.js?t=' + new Date().getTime();
+    
     script.onload = function() {
-        console.log('✅ Filter script loaded successfully from GitHub!');
+        console.log('✅ Latest script fetched and loaded!');
     };
-    script.onerror = function() {
-        console.error('❌ Failed to load the filter script. Check your internet or GitHub repo visibility.');
-    };
-
-    // Inject it into the current webpage
+    
     document.body.appendChild(script);
 })();
